@@ -11,7 +11,7 @@ window.addEventListener("load", ()=>{
         navigator.geolocation.getCurrentPosition((position)=>{
             long = position.coords.longitude;
             lat = position.coords.latitude;
-            console.log(`Latitud: ${lat} - Longitud: ${long}`);
+
             let proxy="https://cors-anywhere.herokuapp.com/";
             let url=`${proxy}https://api.darksky.net/forecast/427ef2428b19379273138cba08a5ae17/${lat},${long}`;
             
@@ -23,8 +23,21 @@ window.addEventListener("load", ()=>{
                 temperatureDescription.textContent=summary;
                 temperatureDegree.textContent=temperature;
                 timezone.textContent=datos.timezone;
+                //Formula para Celsius
+                let celsius = (temperature - 32) * (5/9);
                 //cambiar el Icono
                 setIcons(icon, document.querySelector(".icon"));
+
+                //Cambio de temperatura de Celsius/Farenheit
+                temperatureSection.addEventListener("click", ()=>{
+                    if(temperatureSpan.textContent ==="F"){
+                        temperatureSpan.textContent = "Cº";
+                        temperatureDegree.textContent = Math.floor(celsius);
+                    }else{
+                        temperatureSpan.textContent= "F";
+                        temperatureDegree.textContent= temperature;
+                    }
+                });
 
             });
         });
